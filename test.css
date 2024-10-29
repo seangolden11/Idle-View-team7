@@ -1,0 +1,254 @@
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  font-family: "Ubuntu", sans-serif;
+  text-align: center;
+  color: #f0ece4;
+}
+
+.app {
+  background-image: url('./assets/background-1.jpg'); /* Path to your image */
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-position: center; /* Centers the background image */
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* NAVBAR STYLING */
+.sidenav {
+  height: 100vh; /* Full viewport height */
+  width: 20vw; /* Fixed width for the sidebar */
+  position: fixed; /* Fixed to stay on the screen */
+  top: 0;
+  right: 0;
+  background-color: rgba(240, 236, 228, 0.5); /* Semi-transparent background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  transition: width 0.3s ease; /* Smooth transition for width change */
+  z-index: 1;
+}
+
+.sidenav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  transition: opacity 0.3s;
+}
+
+.sidenav button img {
+  width: auto; /* Adjust icon size as needed */
+  height: auto;
+  transition: transform 0.3s;
+}
+
+.sidenav button:hover img {
+  transform: scale(1.1); /* Slightly enlarge icons on hover */
+  opacity: 0.8; /* Lower opacity on hover */
+}
+
+.sidenav img:hover {
+  opacity: 0.8;
+}
+
+/* LOGIN STYLING */
+.login,
+.signup {
+  width: 60vw;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+}
+
+/* TODO Black background with slight tilt */
+.login-background,
+.signup-background {
+  /* width: 200vw;
+  height: 200vh;
+  transform: rotate(-70deg);
+  transform-origin: bottom left;
+  background-color: black;
+  position: absolute;
+  top: +50vh;
+  right: -230vw;
+  z-index: -1;  */
+}
+
+.lg-logo {
+  height: 30vh;
+  width: auto;
+  position: fixed;
+  top: 10px;
+
+}
+
+.welcome-text,
+.signup-header {
+  margin-top: 60px;
+  font-size: 60px;
+  font-weight: 700;
+}
+
+.signup-header {
+  margin-top: 150px;
+}
+
+.input-field {
+  width: 300px;
+  padding: 15px;
+  margin: 10px 0;
+  font-size: 18px;
+  color: #f0ece4;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #f0ece4;
+  text-align: left;
+}
+
+.input-field::placeholder {
+  color: #f0ece4;
+  opacity: 0.8;
+}
+.input-field:focus {
+  outline: none;
+}
+
+.login-button,
+.signup-button {
+  width: 300px;
+  padding: 15px;
+  background-color: #b11226;
+  color: #f0ece4;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+.signup-button {
+  margin-top: 10px;
+}
+
+.login-button:hover,
+.signup-button:hover {
+  background-color: #910d1c;
+}
+
+.forget-password-text,
+.sign-up-text,
+.existing-account-text {
+  font-size: 18px;
+  font-weight: 300;
+  color: #f0ece4;
+  margin-top: 10px;
+}
+
+
+.sign-up-link,
+.signup-link {
+  color: #b11226;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.sign-up-link:hover,
+.signup-link:hover {
+  text-decoration: underline;
+}
+
+/* ADD WIDGETS/SETTINGS STYLING */
+.container {
+  position: fixed;
+  bottom: 0;
+  left: 30vw;
+  display: flex;
+  height: 50vh;
+  width: 50vw;
+  align-self: flex-end;
+  background-color: rgba(28,28,28,0.5);
+  overflow: hidden;
+  border: none;
+
+  overflow-x: auto;
+  scrollbar-width: thin;       
+  scrollbar-color: #555 #333;
+}
+
+.sidebar {
+  border: none;
+  background-color: rgba(28,28,28,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  flex-direction: column;
+  height: 100%;
+  width: 30vw;
+  height: 100vh;
+  padding: 20px;
+
+  overflow-x: hidden;
+  overflow-y: auto;   /* Enable vertical scrolling */
+  scrollbar-width: thin;       /* Firefox scrollbar width */
+  scrollbar-color: #555 #333;
+}
+
+/* Styling for each button in the sidebar */
+.button {
+  width: 100%;
+  padding: 30px;
+  font-size: 40px;
+  color: white;
+  margin: 5px 0;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  background-color: #333;
+  transition: background-color 0.3s;
+}
+
+.buttonActive {
+  background-color: #ff4d4d;
+}
+
+/* Main content area where widgets are displayed */
+.contentArea {
+  flex: 1;
+  padding: 20px;
+  background-color: #3b3b3b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+/* Styling for each widget content */
+.widgetContent {
+  background-color: #252525;
+  padding: 30px;
+  border-radius: 8px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
