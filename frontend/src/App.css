@@ -219,3 +219,65 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+
+@media (max-width: 700px) {
+
+  .lg-logo {
+    top: 10px;
+    width: 200px;
+    height: 100px;
+  }
+
+  .welcome-text, .signup-header {
+    font-size: 32px; /* Reduce text size on smaller screens */
+  }
+
+  .input-field {
+    width: 80%; /* Make input and buttons take more width */
+    padding: 5px;
+  }
+
+  .login-button, .signup-button {
+    width: 80%;
+    font-size: 20px;
+  }
+
+
+
+  .contentArea {
+    font-size: 20px; /* Slightly smaller font */
+    margin: 10px;
+    padding: 15px;
+  }
+
+  
+
+  .forget-password-text,
+  .sign-up-text,
+  .existing-account-text {
+    font-size: 15px;
+  }
+  
+  .sidebar {
+    position: fixed;
+    width: 30vw;
+    height: 100vh;
+    padding: 20px;
+  }
+  
+  /* Sidebar Button */
+  .button {
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+  }
+  .widgetContent{
+    font-size: 15px;
+  }
+
+}
+
+@media (max-width: 480px) {
+  
+}
