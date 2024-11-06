@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
-import lg_logo from '../assets/lg_logo.png';
+import lgLogo from '../assets/lg_logo.png';
+import './Login-SignUp.css'
 
 type Props = {}
 
@@ -16,12 +16,9 @@ const SignUp : React.FC<Props> = () => {
     navigate('/login');
   };
 
-
   return (
-    <div className='signup'>
-      <div className='signup-background'></div>
-      
-      <img className='lg-logo' src={lg_logo} alt="LG logo" />
+    <div className='signup-container'> 
+      <img className='lg-logo' src={lgLogo} alt="LG logo" />
       <h1 className='signup-header'>Sign Up</h1>
       
       <input type="text" placeholder="Username" className='input-field' />

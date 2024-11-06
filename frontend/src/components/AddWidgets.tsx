@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from './Navbar';
-import '../App.css'; // Make sure the styles in App.css are defined correctly
-
+import './Widget-Settings.css'
 type Props = {};
 
 const Settings: React.FC<Props> = () => {
@@ -29,9 +27,8 @@ const Settings: React.FC<Props> = () => {
   };
 
   return (
-    <>
-    <Navbar />
-    <div className="sidebar">
+    <div className='wrapper'>
+      <div className="left-sidebar">
         <button
           onClick={() => handleWidgetSelection('Media')}
           className={`button ${activeWidget === 'Media' ? 'buttonActive' : ''}`}
@@ -64,10 +61,9 @@ const Settings: React.FC<Props> = () => {
         </button>
       </div>
       <div className="container">
-      <div className="contentArea">{renderWidget()}</div>
-      <div className="contentArea">{renderWidget()}</div>
+        <div className="contentArea">{renderWidget()}</div>
+      </div>
     </div>
-    </>
   );
 };
 
