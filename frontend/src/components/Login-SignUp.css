@@ -1,0 +1,97 @@
+/* AUTHENTICATION PAGES */
+.login-container,
+.signup-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+}
+
+.lg-logo {
+  position: fixed;
+  top: 10px;
+  height: 25vh;
+}
+
+.welcome-text,
+.signup-header {
+  font-size: 50px;
+  font-weight: 700;
+}
+
+.welcome-text {
+  margin-top: 90px;
+}
+
+.signup-header {
+  margin-top: 120px;
+}
+
+/* Input & Button Styling */
+.input-field {
+  width: 300px;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #f0ece4;
+  text-align: left;
+}
+
+.input-field::placeholder {
+  opacity: 0.8;
+  color : #F0ECE4;
+}
+
+.input-field:focus {
+  outline: none;
+}
+
+.login-button,
+.signup-button {
+  width: 300px;
+  padding: 15px;
+  background-color: #b11226;
+  border: none;
+  border-radius: 5px;
+  font-size: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover,
+.signup-button:hover {
+  background-color: #910d1c;
+}
+
+.forget-password-text,
+.sign-up-text,
+.existing-account-text {
+  font-size: 20px;
+  font-weight: 300;
+  margin-top: 10px;
+}
+.forget-password-text{
+  margin-top: 90px;
+}
+
+.login-link,
+.signup-link {
+  color: #b11226;
+  font-weight: 400;
+  cursor: pointer;
+  transition: text-decoration 0.3s;
+}
+.login-link:hover,
+.signup-link:hover {
+  text-decoration: underline;
+}
