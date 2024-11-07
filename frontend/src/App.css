@@ -7,7 +7,7 @@
 }
 
 .app {
-  background: url('./assets/background-1.jpg') center/cover no-repeat;
+  /* background: url('./assets/background-1.jpg') center/cover no-repeat; */
   width: 100vw;
   height: 100vh;
   display: flex;
