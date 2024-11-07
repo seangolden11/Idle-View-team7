@@ -2,23 +2,45 @@ import React, { useState } from 'react';
 import '../App.css';
 import './Widget-Settings.css'
 
-type Props = {};
+type Props = {
+  onBackgroundChange: () => void;
+  onBrightnessChange: (newBrightness:number) => void;
+};
 
-const Settings: React.FC<Props> = () => {
+const Settings: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
   const [activeWidget, setActiveWidget] = useState<string>('Display');
+  const [brightness, setBrightness] = useState<number>(100); // Local state for brightness
 
   const handleWidgetSelection = (widget: string) => {
     setActiveWidget(widget);
   };
 
+  const handleBrightnessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newBrightness = Number(e.target.value);
+    setBrightness(newBrightness); // Update local state
+    onBrightnessChange(newBrightness); // Call parent component function
+  };
+
+
+  
   const renderWidget = () => {
     switch (activeWidget) {
       case 'Display':
-        return <div className="widgetContent">Brightness Control</div>;
+        return <div className="widgetContent">Brightness Control
+        <input className='brightness-input' 
+          type="range"
+          min="50"
+          max="150"
+          value={brightness} // Bind to local state
+          onChange={handleBrightnessChange}/>
+        </div>;
+
       case 'Power':
         return <div className="widgetContent">Power Settings Content</div>;
       case 'Customization':
-        return <div className="widgetContent">Customization Settings Content</div>;
+        return (
+          <button onClick={onBackgroundChange} className="widgetContent">Change Background</button>
+        );
       case 'UserProfile':
         return <div className="widgetContent">User Profile Settings Content</div>;
       case 'Reset':
