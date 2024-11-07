@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Widget-Settings.css'
+import { Clock } from './Clock/Clock';
+import AddWidgets from './Clock/ClockWidget';
 type Props = {};
 
 const Settings: React.FC<Props> = () => {
@@ -18,13 +20,35 @@ const Settings: React.FC<Props> = () => {
       case 'Weather':
         return <div className="widgetContent">Weather Widget Content</div>;
       case 'Time':
-        return <div className="widgetContent">Time Widget Content</div>;
+        /*return <div className="widgetContent">Time Widget Content</div>;*/
+        return (
+          <div className="widgetContent">
+            <Clock /> {/* Clock 컴포넌트를 호출하여 시계 위젯을 렌더링 */}
+          </div>
+        );
       case 'More':
         return <div className="widgetContent">More Widget Content</div>;
       default:
         return null;
     }
   };
+
+  /*const addWidget = () => {
+    switch (activeWidget) {
+      case 'Media':
+        return <div className="widgetContent">Media Widget Content</div>;
+      case 'Calendar':
+        return <div className="widgetContent">Calendar Widget Content</div>;
+      case 'Weather':
+        return <div className="widgetContent">Weather Widget Content</div>;
+      case 'Time':
+        return <div className="widgetContent">Time Widget Content</div>;
+      case 'More':
+        return <div className="widgetContent">More Widget Content</div>;
+      default:
+        return null;
+    }
+  };*/
 
   return (
     <div className='wrapper'>

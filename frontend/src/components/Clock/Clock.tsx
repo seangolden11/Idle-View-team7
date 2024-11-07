@@ -1,5 +1,5 @@
 import { useLiveUpdate } from "../../hooks/useLiveDate";
-import styles from "./Clock.module.css";
+import styles from "./ClockWidget.module.css";
 
 export const Clock = () => {
     const now = useLiveUpdate();
