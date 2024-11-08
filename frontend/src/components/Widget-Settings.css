@@ -1,8 +1,9 @@
 /* Wrapper styling for sliding effect */
 .wrapper {
-  display: flex;
+  display: fixed;
   width: 100vw;
   height: 100vh;
+  
 }
 
 .container {

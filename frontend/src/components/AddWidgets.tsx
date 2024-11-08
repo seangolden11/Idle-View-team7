@@ -1,8 +1,13 @@
+// AddWidgets.tsx
 import React, { useState } from 'react';
-import './Widget-Settings.css'
-type Props = {};
+import './Widget-Settings.css';
+import { Clock } from './Clock/Clock';
 
-const Settings: React.FC<Props> = () => {
+type Props = {
+  onAddWidget: (widgetType: string) => void;
+};
+
+const AddWidgets: React.FC<Props> = ({ onAddWidget }) => {
   const [activeWidget, setActiveWidget] = useState<string>('Media');
 
   const handleWidgetSelection = (widget: string) => {
@@ -18,7 +23,11 @@ const Settings: React.FC<Props> = () => {
       case 'Weather':
         return <div className="widgetContent">Weather Widget Content</div>;
       case 'Time':
-        return <div className="widgetContent">Time Widget Content</div>;
+        return (
+          <div className="widgetContent">
+            <Clock />
+          </div>
+        );
       case 'More':
         return <div className="widgetContent">More Widget Content</div>;
       default:
@@ -61,10 +70,12 @@ const Settings: React.FC<Props> = () => {
         </button>
       </div>
       <div className="container">
-        <div className="contentArea">{renderWidget()}</div>
+        <div className="contentArea" onClick={() => onAddWidget(activeWidget)} >
+          {renderWidget()}
+        </div>
       </div>
     </div>
   );
 };
 
-export default Settings;
+export default AddWidgets;
