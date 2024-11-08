@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import './Widget-Settings.css';
 import { Clock } from './Clock/Clock';
+import WeatherWidget from './Widgets/WeatherWidget';
 
 type Props = {
   onAddWidget: (widgetType: string) => void;
@@ -21,7 +22,9 @@ const AddWidgets: React.FC<Props> = ({ onAddWidget }) => {
       case 'Calendar':
         return <div className="widgetContent">Calendar Widget Content</div>;
       case 'Weather':
-        return <div className="widgetContent">Weather Widget Content</div>;
+        return <div className="widgetContent">
+          <WeatherWidget/>
+        </div>;
       case 'Time':
         return (
           <div className="widgetContent">

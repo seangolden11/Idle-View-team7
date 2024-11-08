@@ -2,6 +2,7 @@
 import React from 'react';
 import Draggable from 'react-draggable';
 import { Clock } from './Clock/Clock';
+import WeatherWidget from './Widgets/WeatherWidget';
 import styles from './Clock/ClockWidget.module.css';
 
 type Widget = { id: number; type: string; x: number; y: number };
@@ -19,7 +20,7 @@ const WidgetsContainer: React.FC<Props> = ({ widgets }) => {
             {widget.type === 'Time' && <Clock />}
             {widget.type === 'Media' && <div>Media Widget</div>}
             {widget.type === 'Calendar' && <div>Calendar Widget</div>}
-            {widget.type === 'Weather' && <div>Weather Widget</div>}
+            {widget.type === 'Weather' && <WeatherWidget/>}
             {widget.type === 'More' && <div>More Widget</div>}
           </div>
         </Draggable>

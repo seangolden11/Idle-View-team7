@@ -41,10 +41,15 @@ import AddWidgets from '../components/AddWidgets';
 import Settings from '../components/Settings';
 import WidgetsContainer from '../components/WidgetContainer';
 import styles from '../components/Overlay.module.css';
+import WeatherWidget from '../components/Widgets/WeatherWidget'
 
 type Widget = { id: number; type: string; x: number; y: number };
+type Props = {
+  onBackgroundChange: () => void;
+  onBrightnessChange: (newBrightness: number) => void;
+}
 
-const HomePage = () => {
+const HomePage: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
   const [widgets, setWidgets] = useState<Widget[]>([]);
   const [widgetCounter, setWidgetCounter] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
@@ -65,9 +70,10 @@ const HomePage = () => {
 
   return (
     <>
+      <WeatherWidget/>
       <Navbar onSettingsClick={toggleSettings} onAddButtonClick={toggleAddWidget}/>
       {!showAddWidget && showSettings && <div className={styles.overlay}> 
-          <Settings/> 
+      <Settings onBackgroundChange={onBackgroundChange} onBrightnessChange={onBrightnessChange}/>
         </div>}
       {showAddWidget  && !showSettings && <div className={styles.overlay}>
           <AddWidgets onAddWidget={addWidget} />
