@@ -1,0 +1,77 @@
+.moon {
+  fill: white;
+  filter: drop-shadow(0 0 20px rgba(252,252,252,0.8));
+  width: 80px;
+  height: 80px;
+}
+
+.sun {
+  fill: orange;
+  filter: drop-shadow(0 0 20px rgba(255,165,0,0.8));
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+@keyframes moveCloud {
+  0%,
+  100% {
+    transform: translateX(-65px)
+  }
+  50% {
+    transform: translateX(65px);
+  }
+}
+
+.cloud {
+  fill: lightblue;
+  filter: drop-shadow(0 0 20px rgba(173,216,230,0.8));
+  width: 80px;
+  height: 80px;
+
+  animation: moveCloud 8s ease-in-out infinite;
+}
+.rain{ 
+  fill: lightblue;
+  filter: drop-shadow(0 0 20px rgba(173,216,230,0.8));
+  width: 80px;
+  height: 80px;
+
+  animation: moveCloud 8s ease-in-out infinite;
+}
+
+.cloud-container {
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.temperature{
+  font-size: 3rem;
+  font-size: bold;
+  margin-top: 25px;
+}
+
+.feels-like {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.location{
+  font-size: 2.5rem;
+  font-size: bold;
+  background-color: transparent;
+  border: none;
+  color: white;
+  text-align: center;
+
+  outline: none;
+  margin: 10px 0;
+}
+
+.location:hover{
+  cursor: pointer;
+}
+
+

@@ -2,6 +2,7 @@ import Navbar from '../components/Navbar'
 import Settings from '../components/Settings'
 import AddWidgets from '../components/AddWidgets'
 import { useState } from 'react'
+import WeatherWidget from '../components/Widgets/WeatherWidget'
 
 type Props = {
   onBackgroundChange: () => void;
@@ -11,7 +12,6 @@ type Props = {
 const HomePage: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
   const [showSettings, setShowSettings] = useState(false);
   const [showAddWidget, setShowAddWidget] = useState(false);
-  const [navbarColor, setNavbarColor] = useState("defaultColor");
 
   const toggleSettings = () => {
     setShowSettings(prevState => !prevState)
@@ -21,14 +21,11 @@ const HomePage: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
     setShowAddWidget(prevState => !prevState)
   }
 
-  const handleSidebarColorChange = (newColor: string) => {
-    setNavbarColor(newColor);
-  }
-
   return (
     <>
-      <Navbar onSettingsClick={toggleSettings} onAddButtonClick={toggleAddWidget} color={navbarColor}/>
-      {showSettings && <Settings onBackgroundChange={onBackgroundChange} onBrightnessChange={onBrightnessChange} onSidebarColorChange={handleSidebarColorChange}/>}
+      <WeatherWidget/>
+      <Navbar onSettingsClick={toggleSettings} onAddButtonClick={toggleAddWidget} />
+      {showSettings && <Settings onBackgroundChange={onBackgroundChange} onBrightnessChange={onBrightnessChange}/>}
       {showAddWidget && <AddWidgets/>}
     </>
   )
