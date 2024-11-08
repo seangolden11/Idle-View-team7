@@ -1,10 +1,13 @@
+// AddWidgets.tsx
 import React, { useState } from 'react';
-import './Widget-Settings.css'
+import './Widget-Settings.css';
 import { Clock } from './Clock/Clock';
-import AddWidgets from './Clock/ClockWidget';
-type Props = {};
 
-const Settings: React.FC<Props> = () => {
+type Props = {
+  onAddWidget: (widgetType: string) => void;
+};
+
+const AddWidgets: React.FC<Props> = ({ onAddWidget }) => {
   const [activeWidget, setActiveWidget] = useState<string>('Media');
 
   const handleWidgetSelection = (widget: string) => {
@@ -20,10 +23,9 @@ const Settings: React.FC<Props> = () => {
       case 'Weather':
         return <div className="widgetContent">Weather Widget Content</div>;
       case 'Time':
-        /*return <div className="widgetContent">Time Widget Content</div>;*/
         return (
           <div className="widgetContent">
-            <Clock /> {/* Clock 컴포넌트를 호출하여 시계 위젯을 렌더링 */}
+            <Clock />
           </div>
         );
       case 'More':
@@ -32,23 +34,6 @@ const Settings: React.FC<Props> = () => {
         return null;
     }
   };
-
-  /*const addWidget = () => {
-    switch (activeWidget) {
-      case 'Media':
-        return <div className="widgetContent">Media Widget Content</div>;
-      case 'Calendar':
-        return <div className="widgetContent">Calendar Widget Content</div>;
-      case 'Weather':
-        return <div className="widgetContent">Weather Widget Content</div>;
-      case 'Time':
-        return <div className="widgetContent">Time Widget Content</div>;
-      case 'More':
-        return <div className="widgetContent">More Widget Content</div>;
-      default:
-        return null;
-    }
-  };*/
 
   return (
     <div className='wrapper'>
@@ -85,10 +70,12 @@ const Settings: React.FC<Props> = () => {
         </button>
       </div>
       <div className="container">
-        <div className="contentArea">{renderWidget()}</div>
+        <div className="contentArea" onClick={() => onAddWidget(activeWidget)} >
+          {renderWidget()}
+        </div>
       </div>
     </div>
   );
 };
 
-export default Settings;
+export default AddWidgets;

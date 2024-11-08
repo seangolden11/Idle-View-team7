@@ -29,17 +29,26 @@ const HomePage = (props: Props) => {
 
 export default HomePage */
 
-import Navbar from '../components/Navbar'
-import Settings from '../components/Settings'
-import AddWidgets from '../components/AddWidgets'
-import { WidgetsContainer } from '../components/Clock/ClockWidgetConTainer'
-import { useState } from 'react'
+// HomePage.tsx
+import React, { useState } from 'react';
+import Navbar from '../components/Navbar';
+import AddWidgets from '../components/AddWidgets';
+import Settings from '../components/Settings';
+import WidgetsContainer from '../components/WidgetContainer';
+import styles from '../components/Overlay.module.css';
 
-type Props = {}
+type Widget = { id: number; type: string; x: number; y: number };
 
-const HomePage = (props: Props) => {
+const HomePage = () => {
+  const [widgets, setWidgets] = useState<Widget[]>([]);
+  const [widgetCounter, setWidgetCounter] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
   const [showAddWidget, setShowAddWidget] = useState(false);
+
+  const addWidget = (type: string) => {
+    setWidgets([...widgets, { id: widgetCounter, type, x: 0, y: 0 }]);
+    setWidgetCounter(widgetCounter + 1);
+  };
 
   const toggleSettings = () => {
     setShowSettings(prevState => !prevState)
@@ -47,17 +56,22 @@ const HomePage = (props: Props) => {
 
   const toggleAddWidget = () => {
     setShowAddWidget(prevState => !prevState)
-  }
+  };
 
   return (
     <>
       <Navbar onSettingsClick={toggleSettings} onAddButtonClick={toggleAddWidget}/>
-      {!showAddWidget && showSettings && <Settings />}
-      {!showSettings && showAddWidget && <AddWidgets />}
-      <WidgetsContainer />
+      {!showAddWidget && showSettings && <div className={styles.overlay}> 
+          <Settings/> 
+        </div>}
+      {showAddWidget  && !showSettings && <div className={styles.overlay}>
+          <AddWidgets onAddWidget={addWidget} />
+        </div>}
+      <WidgetsContainer widgets={widgets} />
     </>
   )
-}
+
+  
+};
 
 export default HomePage;
-
