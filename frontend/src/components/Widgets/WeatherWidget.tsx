@@ -72,7 +72,7 @@ const WeatherWidget: React.FC = () => {
   useEffect(() => {
     if (location) {
       axios
-        .get(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid={API KEY}&units=metric`)
+        .get(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid={API_KEY}&units=metric`)
         .then((response) => {
           setWeatherData(response.data);
         })

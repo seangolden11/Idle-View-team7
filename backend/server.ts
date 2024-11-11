@@ -11,6 +11,11 @@ app.use(express.json());
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
 
+// Root route for testing
+app.get('/', (req: Request, res: Response) => {
+  res.send('Welcome to the API');
+});
+
 app.post('/register', async (req: Request, res: Response, next: NextFunction) => {
   const { username, password } = req.body;
   if (!username || !password) {
@@ -27,7 +32,7 @@ app.post('/register', async (req: Request, res: Response, next: NextFunction) =>
     });
     res.status(201).json({ message: 'User registered successfully', user });
   } catch (error) {
-    next(error); // 전역 에러 핸들러로 전달
+    next(error);
   }
 });
 
@@ -62,7 +67,7 @@ app.post('/login', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-// 전역 에러 핸들러
+// Global error handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong' });

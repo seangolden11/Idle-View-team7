@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import lgLogo from '../assets/lg_logo.png';
-import './Login-SignUp.css'
+import './Login-SignUp.css';
 
-type Props = {};
-
-const Login: React.FC<Props> = () => {
+const Login: React.FC = () => {
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    //logic here
-    navigate('/home');
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/login', {
+        username,
+        password,
+      });
+      const token = response.data.token;
+
+
+      
+      // Store token in localStorage
+      localStorage.setItem('token', token);
+
+      // Redirect to home page on successful login
+      navigate('/home');
+    } catch (error) {
+      alert('Login failed. Please check your credentials and try again.');
+    }
   };
 
   const handleSignUpRedirect = () => {
@@ -22,8 +38,20 @@ const Login: React.FC<Props> = () => {
       <img className="lg-logo" src={lgLogo} alt="LG logo" />
       <div className="welcome-text">WELCOME</div>
 
-      <input type="text" placeholder="Username" className="input-field" />
-      <input type="password" placeholder="Password" className="input-field" />
+      <input
+        type="text"
+        placeholder="Username"
+        className="input-field"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        className="input-field"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
       <button className="login-button" onClick={handleLogin}>Login</button>
 
