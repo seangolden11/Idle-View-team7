@@ -1,8 +1,9 @@
 // AddWidgets.tsx
 import React, { useState } from 'react';
 import './Widget-Settings.css';
-import { Clock } from './Clock/Clock';
+import { Clock } from './Widgets/Clock/Clock';
 import WeatherWidget from './Widgets/WeatherWidget';
+import BasicCalendar from './Widgets/Calendar/BasicCalendar';
 
 type Props = {
   onAddWidget: (widgetType: string) => void;
@@ -20,7 +21,7 @@ const AddWidgets: React.FC<Props> = ({ onAddWidget }) => {
       case 'Media':
         return <div className="widgetContent">Media Widget Content</div>;
       case 'Calendar':
-        return <div className="widgetContent">Calendar Widget Content</div>;
+        return <div className="widgetContent"><BasicCalendar/></div>;
       case 'Weather':
         return <div className="widgetContent">
           <WeatherWidget/>

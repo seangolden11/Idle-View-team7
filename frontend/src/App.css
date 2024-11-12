@@ -1,5 +1,5 @@
 /* Global Styles */
-* {
+* :not(.noglobal *){
   box-sizing: border-box;
   font-family: "Ubuntu", sans-serif;
   text-align: center;
