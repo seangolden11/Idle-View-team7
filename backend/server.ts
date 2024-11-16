@@ -5,9 +5,22 @@ import bcrypt from 'bcryptjs';
 import cors from 'cors';
 
 const app = express();
-app.use(cors());
+// 기존 CORS 설정을 아래와 같이 변경
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions)); // CORS 미들웨어 적용
 const prisma = new PrismaClient();
-const PORT = process.env.PORT || 5173;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -29,6 +42,36 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
     next();
   });
 };
+
+// API: 회원가입
+app.post('/register', async (req: Request, res: Response, next: NextFunction) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password are required' });
+  }
+
+  try {
+    const existingUser = await prisma.user.findUnique({ where: { username } });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = await prisma.user.create({
+      data: {
+        username,
+        password_hash: hashedPassword,
+      },
+    });
+
+    res.status(201).json({ message: 'User registered successfully', userId: newUser.user_id });
+  } catch (error) {
+    next(error);
+  }
+});
 
 // API: 로그인
 app.post('/login', async (req: Request, res: Response, next: NextFunction) => {
