@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import cors from 'cors';
+import axios from 'axios';
 
 const app = express();
 // 기존 CORS 설정을 아래와 같이 변경
@@ -136,10 +137,42 @@ app.delete('/widget/remove', authenticateToken, async (req: Request, res: Respon
   }
 });
 
-// API: 실시간 날씨 정보 가져오기 (Mock 데이터 예시)
 app.get('/widget/weather', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
-  const { location } = req.query;
-  res.json({ temperature: 25, condition: 'Sunny' });
+  const { latitude, longitude } = req.query;
+
+  if (!latitude || !longitude) {
+    return res.status(400).json({ error: 'Latitude and longitude are required' });
+  }
+
+  try {
+    const apiKey = process.env.WEATHER_API_KEY || 'TGocIkLZrVsK2CylrjJuwnCPkwjcshlUB1Eiw9BbTF6veLrvMIH4U3scYaMHP297LHiKpNW41irfzEjOUlx%2BUw%3D%3D';
+    const baseUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtFcst';
+    
+    const now = new Date();
+    const baseDate = now.toISOString().split('T')[0].replace(/-/g, ''); // yyyyMMdd
+    const baseTime = '0600'; // 발표 시간은 요청 시간에 따라 동적으로 조정 가능
+
+    // 격자 변환 로직 필요 시 추가
+    const nx = 55; // Placeholder
+    const ny = 127; // Placeholder
+
+    const response = await axios.get(baseUrl, {
+      params: {
+        serviceKey: apiKey,
+        numOfRows: 10,
+        pageNo: 1,
+        dataType: 'JSON',
+        base_date: baseDate,
+        base_time: baseTime,
+        nx,
+        ny,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    next(error);
+  }
 });
 
 // API: 일정 관리 (Mock 데이터 예시)
