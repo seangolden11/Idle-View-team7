@@ -1,59 +1,22 @@
-
-/*import Navbar from '../components/Navbar'
-import Settings from '../components/Settings'
-import AddWidgets from '../components/AddWidgets'
-import { useState } from 'react'
-import WeatherWidget from '../components/Widgets/WeatherWidget'
-
-type Props = {
-  onBackgroundChange: () => void;
-  onBrightnessChange: (newBrightness: number) => void;
-}
-
-const HomePage: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
-  const [showSettings, setShowSettings] = useState(false);
-  const [showAddWidget, setShowAddWidget] = useState(false);
-
-  const toggleSettings = () => {
-    setShowSettings(prevState => !prevState)
-  }
-
-  const toggleAddWidget = () => {
-    setShowAddWidget(prevState => !prevState)
-  }
-
-  return (
-    <>
-      <WeatherWidget/>
-      <Navbar onSettingsClick={toggleSettings} onAddButtonClick={toggleAddWidget} />
-      {showSettings && <Settings onBackgroundChange={onBackgroundChange} onBrightnessChange={onBrightnessChange}/>}
-      {showAddWidget && <AddWidgets/>}
-    </>
-  )
-}
-
-export default HomePage */
-
-// HomePage.tsx
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import AddWidgets from '../components/AddWidgets';
 import Settings from '../components/Settings';
 import WidgetsContainer from '../components/WidgetContainer';
 import styles from '../components/Overlay.module.css';
-import WeatherWidget from '../components/Widgets/WeatherWidget'
 
 type Widget = { id: number; type: string; x: number; y: number };
 type Props = {
-  onBackgroundChange: () => void;
+  onBackgroundChange: (background: string) => void;
   onBrightnessChange: (newBrightness: number) => void;
-}
+};
 
-const HomePage: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
+const HomePage: React.FC<Props> = ({ onBackgroundChange, onBrightnessChange }) => {
   const [widgets, setWidgets] = useState<Widget[]>([]);
   const [widgetCounter, setWidgetCounter] = useState(0);
-  const [showSettings, setShowSettings] = useState(false);
-  const [showAddWidget, setShowAddWidget] = useState(false);
+  const [activeComponent, setActiveComponent] = useState<'settings' | 'addWidget' | null>(null);
+  const [navbarColor, setNavbarColor] = useState('rgba(240, 236, 228, 0.5)'); // Default Navbar color
+  const [selectedAvatar, setSelectedAvatar] = useState<string>('');
 
   const addWidget = (type: string) => {
     setWidgets([...widgets, { id: widgetCounter, type, x: 0, y: 0 }]);
@@ -61,28 +24,48 @@ const HomePage: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
   };
 
   const toggleSettings = () => {
-    setShowSettings(prevState => !prevState)
-  }
-
-  const toggleAddWidget = () => {
-    setShowAddWidget(prevState => !prevState)
+    setActiveComponent((prev) => (prev === 'settings' ? null : 'settings'));
   };
 
+  const toggleAddWidget = () => {
+    setActiveComponent((prev) => (prev === 'addWidget' ? null : 'addWidget'));
+  };
+
+  const changeNavbarColor = (color: string) => {
+    setNavbarColor(color); // Update the Navbar color
+  };
+
+  const changeAvatar = (avatar: string) => {
+    setSelectedAvatar(avatar); // Store selected avatar
+  };
+  
   return (
     <>
-      <WeatherWidget/>
-      <Navbar onSettingsClick={toggleSettings} onAddButtonClick={toggleAddWidget}/>
-      {!showAddWidget && showSettings && <div className={styles.overlay}> 
-      <Settings onBackgroundChange={onBackgroundChange} onBrightnessChange={onBrightnessChange}/>
-        </div>}
-      {showAddWidget  && !showSettings && <div className={styles.overlay}>
+      <Navbar
+        onSettingsClick={toggleSettings}
+        onAddButtonClick={toggleAddWidget}
+        style={{ backgroundColor: navbarColor }}
+        avatar={selectedAvatar}
+      />
+
+      {activeComponent === 'settings' && (
+        <div className={styles.overlay}>
+          <Settings 
+            onBackgroundChange={onBackgroundChange} 
+            onNavbarColorChange={changeNavbarColor} 
+            onBrightnessChange={onBrightnessChange} 
+            onAvatarChange={changeAvatar}
+          />
+        </div>
+      )}
+      {activeComponent === 'addWidget' && (
+        <div className={styles.overlay}>
           <AddWidgets onAddWidget={addWidget} />
-        </div>}
+        </div>
+      )}
       <WidgetsContainer widgets={widgets} />
     </>
-  )
-
-  
+  );
 };
 
 export default HomePage;
