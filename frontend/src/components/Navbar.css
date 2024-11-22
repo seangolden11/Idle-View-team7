@@ -15,6 +15,11 @@
   transition: width 0.3s ease;
 }
 
+.avatar{
+  width: 125px;
+  height: 125px;
+}
+
 .sidebar button {
   background: none;
   border: none;
