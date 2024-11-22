@@ -1,5 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { dfs_xy_conv } from './utils/dfs_xy_conv';
+import { getUserLocation } from './utils/location';
+import { calculateBaseTime } from "./utils/time"; // 기준 시간 유틸리티
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import cors from 'cors';
@@ -137,53 +140,56 @@ app.delete('/widget/remove', authenticateToken, async (req: Request, res: Respon
   }
 });
 
-app.get('/widget/weather', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
-  const { latitude, longitude } = req.query;
+app.get(
+  "/widget/weather",
+  authenticateToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+      try {
+          // 사용자의 위치 정보 가져오기
+          const { latitude, longitude } = await getUserLocation();
 
-  if (!latitude || !longitude) {
-    return res.status(400).json({ error: 'Latitude and longitude are required' });
+          if (!latitude || !longitude) {
+              return res.status(500).json({ error: "Failed to retrieve location" });
+          }
+
+          // 위경도를 격자 좌표(nx, ny)로 변환
+          const { x: nx, y: ny } = dfs_xy_conv("toXY", latitude, longitude);
+
+          const apiKey = process.env.WEATHER_API_KEY || "your_api_key_here";
+          const baseUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtFcst";
+
+          // 현재 시간 기준으로 baseTime 계산
+          const { baseDate, baseTime } = calculateBaseTime(new Date());
+
+          const response = await axios.get(baseUrl, {
+              params: {
+                  serviceKey: apiKey,
+                  numOfRows: 10,
+                  pageNo: 1,
+                  dataType: "JSON",
+                  base_date: baseDate,
+                  base_time: baseTime,
+                  nx,
+                  ny,
+              },
+          });
+
+          res.json(response.data);
+      } catch (error) {
+          next(error);
+      }
   }
+);
 
-  try {
-    const apiKey = process.env.WEATHER_API_KEY || 'TGocIkLZrVsK2CylrjJuwnCPkwjcshlUB1Eiw9BbTF6veLrvMIH4U3scYaMHP297LHiKpNW41irfzEjOUlx%2BUw%3D%3D';
-    const baseUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtFcst';
-    
-    const now = new Date();
-    const baseDate = now.toISOString().split('T')[0].replace(/-/g, ''); // yyyyMMdd
-    const baseTime = '0600'; // 발표 시간은 요청 시간에 따라 동적으로 조정 가능
+// // API: 일정 관리 (Mock 데이터 예시)
+// app.get('/widget/schedule', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
+//   res.json({ events: [{ title: 'Meeting', date: '2024-11-15', time: '10:00' }] });
+// });
 
-    // 격자 변환 로직 필요 시 추가
-    const nx = 55; // Placeholder
-    const ny = 127; // Placeholder
-
-    const response = await axios.get(baseUrl, {
-      params: {
-        serviceKey: apiKey,
-        numOfRows: 10,
-        pageNo: 1,
-        dataType: 'JSON',
-        base_date: baseDate,
-        base_time: baseTime,
-        nx,
-        ny,
-      },
-    });
-
-    res.json(response.data);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// API: 일정 관리 (Mock 데이터 예시)
-app.get('/widget/schedule', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
-  res.json({ events: [{ title: 'Meeting', date: '2024-11-15', time: '10:00' }] });
-});
-
-// API: IdleView 화면 활성화
-app.post('/idleview/activate', authenticateToken, (req: Request, res: Response) => {
-  res.json({ success: true });
-});
+// // API: IdleView 화면 활성화
+// app.post('/idleview/activate', authenticateToken, (req: Request, res: Response) => {
+//   res.json({ success: true });
+// });
 
 // Global error handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
