@@ -1,38 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import lgLogo from '../assets/lg_logo.png';
-import './Login-SignUp.css'
+import './Login-SignUp.css';
 
-type Props = {}
-
-const SignUp : React.FC<Props> = () => {
+const SignUp: React.FC = () => {
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSignup = () => {
-    navigate('/login');
+  const handleSignup = async () => {
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+  
+    try {
+      await axios.post('http://localhost:3000/register', {
+        username,
+        password,
+      });
+      navigate('/login'); // Redirect on success
+    } catch (error) {
+      console.error("Signup error:", error);
+      alert('Signup failed. Please try again.');
+    }
   };
-
-  const handleSignUpRedirect = () => {
+  
+  const handleLoginRedirect = () => {
     navigate('/login');
   };
 
   return (
-    <div className='signup-container'> 
-      <img className='lg-logo' src={lgLogo} alt="LG logo" />
-      <h1 className='signup-header'>Sign Up</h1>
+    <div className="signup-container"> 
+      <img className="lg-logo" src={lgLogo} alt="LG logo" />
+      <h1 className="signup-header">Sign Up</h1>
       
-      <input type="text" placeholder="Username" className='input-field' />
-      <input type="email" placeholder="Email" className='input-field' />
-      <input type="password" placeholder="Password" className='input-field' />
-      <input type="password" placeholder="Confirm Password" className='input-field' />
+      <input
+        type="text"
+        placeholder="Username"
+        className="input-field"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        className="input-field"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Confirm Password"
+        className="input-field"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+      />
 
-      <button className='signup-button' onClick={handleSignup}>Sign Up</button>
+      <button className="signup-button" onClick={handleSignup}>Sign Up</button>
 
-      <div className='existing-account-text'>
-        Already have an account? <span className='login-link' onClick={handleSignUpRedirect}>Login</span>
+      <div className="existing-account-text">
+        Already have an account? <span className="login-link" onClick={handleLoginRedirect}>Login</span>
       </div>
     </div>
   );
-}
+};
 
 export default SignUp;
