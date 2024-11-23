@@ -1,10 +1,19 @@
-.media-player{
+.noglobal{
+    position: relative;
     width: 20%;
-    height: 20%;
 }
 
-.react-player Video {
-    object-fit: cover;
-    width: 100%;
+.media-player {
+    width: 20%; /* 부모 컨테이너의 너비 */
+    max-width: 400px; /* 최대 너비 설정 */
+    aspect-ratio: 16 / 9; /* 16:9 비율 유지 */
+    margin: auto; /* 가운데 정렬 */
+}
+
+.react-player {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%; /* 부모 컨테이너에 맞게 채움 */
     height: 100%;
 }

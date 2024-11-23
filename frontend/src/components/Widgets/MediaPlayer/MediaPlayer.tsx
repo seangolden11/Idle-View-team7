@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 
-/*
 function MediaPlayer() {
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
-    // WebOS 파일 경로를 가져오는 함수
     const fetchVideoPath = () => {
-        // WebOS의 luna service API 호출
+        //@ts-ignore
+        if (typeof window.webOS === "undefined") {
+            console.warn("webOS is not defined. Using sample video URL for local testing.");
+            setVideoUrl("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
+
+            return;
+        }
         //@ts-ignore
         webOS.service.request("luna://com.webos.service.file/", {
             method: "listDir",
             parameters: {
-                path: "/media/internal/videos/" // 동영상이 저장된 경로
+                path: "/media/internal/videos/" // 동영상 경로
             },
             onSuccess: (response: any) => {
                 if (response.files && response.files.length > 0) {
@@ -20,35 +25,43 @@ function MediaPlayer() {
                     const videoPath = `/media/internal/videos/${videoFile}`;
                     setVideoUrl(videoPath);
                 } else {
-                    console.error("No video files found in the directory.");
+                    setError("No video files found in the directory."); // 파일 없음 처리
                 }
             },
             onFailure: (error: any) => {
-                console.error("Failed to fetch video files:", error);
+                setError("Failed to fetch video files."); // API 실패 처리
+                console.error("Error fetching files:", error);
             }
         });
     };
 
     useEffect(() => {
-        fetchVideoPath(); // 컴포넌트 마운트 시 경로 가져오기
+        fetchVideoPath(); // 컴포넌트 마운트 시 파일 경로 가져오기
     }, []);
 
     return (
         <div className="noglobal">
             <div className="video-player">
-                {videoUrl ? (
+                {error ? (
+                    <p>Error: {error}</p> // 오류 메시지 표시
+                ) : videoUrl ? (
                     <ReactPlayer
-                        url={videoUrl} // 동적으로 가져온 경로 설정
+                        url={videoUrl}
                         playing
                         loop
                         muted
                         className="react-player"
-                        controls // 플레이어 컨트롤 표시
+                        controls
                         width="100%"
                         height="100%"
+                        style={{
+                            maxWidth: "400px", // 최대 너비 제한
+                            aspectRatio: "16 / 9", // 16:9 비율 유지
+                            margin: "auto", // 중앙 정렬
+                        }}
                     />
                 ) : (
-                    <p>Loading video...</p> // 동영상 경로를 가져오는 중 표시
+                    <p>Loading video...</p> // 로딩 중 메시지
                 )}
             </div>
         </div>
@@ -56,4 +69,3 @@ function MediaPlayer() {
 }
 
 export default MediaPlayer;
-*/
