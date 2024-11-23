@@ -1,5 +1,5 @@
 import { useLiveUpdate } from "../../hooks/useLiveDate";
-import styles from "./ClockWidget.module.css";
+import "./ClockWidget.module.css";
 
 export const Clock = () => {
     const now = useLiveUpdate();
@@ -8,7 +8,7 @@ export const Clock = () => {
     const ampm = now.getHours()< 12 ? "AM" : "PM";
 
     return (
-        <div className = {styles.Clock}>
+        <div className ='clock'>
             {hour}:{minute} {ampm}
         </div>);
     

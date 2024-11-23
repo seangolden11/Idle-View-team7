@@ -2,14 +2,42 @@ import React, { useState } from 'react';
 import '../App.css';
 import './Widget-Settings.css'
 
+import background1 from '../assets/background-1.jpg';
+import background2 from '../assets/background-2.jpg';
+import background3 from '../assets/background-3.jpg';
+import background4 from '../assets/background-4.jpg';
+
+import avatar1 from '../assets/avatar-red.png';
+import avatar2 from '../assets/avatar-black.png';
+import avatar3 from '../assets/avatar-white.png'
+
 type Props = {
-  onBackgroundChange: () => void;
+  onBackgroundChange: (background: string) => void;
+  onNavbarColorChange: (color: string) => void;
   onBrightnessChange: (newBrightness:number) => void;
+  onAvatarChange: (avatar: string) => void;
 };
 
-const Settings: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
+const Settings: React.FC<Props> = ({onBackgroundChange,onNavbarColorChange,onBrightnessChange,onAvatarChange}) => {
   const [activeWidget, setActiveWidget] = useState<string>('Display');
   const [brightness, setBrightness] = useState<number>(100); // Local state for brightness
+
+  const colors = [
+    { name: 'Beige', rgba: 'rgba(240, 236, 228, 0.5)' },
+    { name: 'Light Pink', rgba: 'rgba(255, 182, 193, 0.5)' },
+    { name: 'Light Blue', rgba: 'rgba(173, 216, 230, 0.5)' }
+  ];
+  const backgrounds = [
+    { name: 'Heritage Red', image: background1 },
+    { name: 'Active Red', image: background2 },
+    { name: 'Active Pink', image: background3 },
+    { name: 'Light Pink', image: background4 }
+  ];
+  const avatars = [
+    {name: 'Red', image:avatar1},
+    {name: 'Black', image: avatar2},
+    {name: 'white', image:avatar3}
+  ];
 
   const handleWidgetSelection = (widget: string) => {
     setActiveWidget(widget);
@@ -21,8 +49,6 @@ const Settings: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
     onBrightnessChange(newBrightness); // Call parent component function
   };
 
-
-  
   const renderWidget = () => {
     switch (activeWidget) {
       case 'Display':
@@ -34,15 +60,62 @@ const Settings: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
           value={brightness} // Bind to local state
           onChange={handleBrightnessChange}/>
         </div>;
-
-      case 'Power':
-        return <div className="widgetContent">Power Settings Content</div>;
-      case 'Customization':
+      case 'BackgroundChange':
         return (
-          <button onClick={onBackgroundChange} className="widgetContent">Change Background</button>
+          <>
+            {backgrounds.map((background) => (
+              <button
+                key={background.name}
+                className="widgetContent"
+                style={{
+                  backgroundImage: `url(${background.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  border: '1px solid #000',
+                  margin: '5px'  
+                }}
+                onClick={() => onBackgroundChange(background.image)}
+              >
+                {background.name}
+              </button>
+            ))}
+          </>
+        );      
+      case 'SidebarChange':
+        return (
+          <>
+            {colors.map((color) => (
+            <button className='widgetContent'
+            key={color.rgba}
+            style={{ backgroundColor: color.rgba, border: '1px solid #000', margin: '5px', padding: '10px' }}
+            onClick={() => onNavbarColorChange(color.rgba)}
+          >
+            {color.name}
+          </button>
+        ))}
+          </>
         );
-      case 'UserProfile':
-        return <div className="widgetContent">User Profile Settings Content</div>;
+        case 'UserProfile':
+          return (
+            <>
+                {avatars.map((avatar) => (
+                  <button className='widgetContent'
+                    key={avatar.name}
+                    style={{
+                      backgroundImage: `url(${avatar.image})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      width: '150px',
+                      height: '150px',
+                      border: '2px solid #000',
+                      cursor: 'pointer',
+                      margin: '10px'
+                    }}
+                    onClick={() => onAvatarChange(avatar.image)}
+                  ></button>
+                ))}
+            </>
+          );        
       case 'Reset':
         return <div className="widgetContent">Reset Settings Content</div>;
       default:
@@ -61,16 +134,16 @@ const Settings: React.FC<Props> = ({onBackgroundChange,onBrightnessChange}) => {
             Display
           </button>
           <button
-            onClick={() => handleWidgetSelection('Power')}
-            className={`button ${activeWidget === 'Power' ? 'buttonActive' : ''}`}
+            onClick={() => handleWidgetSelection('SidebarChange')}
+            className={`button ${activeWidget === 'SidebarChange' ? 'buttonActive' : ''}`}
           >
-            Power
+            Sidebar Change
           </button>
           <button
-            onClick={() => handleWidgetSelection('Customization')}
-            className={`button ${activeWidget === 'Customization' ? 'buttonActive' : ''}`}
+            onClick={() => handleWidgetSelection('BackgroundChange')}
+            className={`button ${activeWidget === 'BackgroundChange' ? 'buttonActive' : ''}`}
           >
-            Custom
+            Background Change
           </button>
           <button
             onClick={() => handleWidgetSelection('UserProfile')}
