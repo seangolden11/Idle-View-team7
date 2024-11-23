@@ -4,7 +4,6 @@ import './Widget-Settings.css';
 import { Clock } from './Widgets/Clock/Clock';
 import WeatherWidget from './Widgets/WeatherWidget';
 import BasicCalendar from './Widgets/Calendar/BasicCalendar';
-import MediaPlayer from './Widgets/MediaPlayer/MediaPlayer';
 
 type Props = {
   onAddWidget: (widgetType: string) => void;
@@ -20,7 +19,7 @@ const AddWidgets: React.FC<Props> = ({ onAddWidget }) => {
   const renderWidget = () => {
     switch (activeWidget) {
       case 'Media':
-        return <div className="widgetContent"><MediaPlayer/></div>;
+        return <div className="widgetContent">Media Widget Content</div>;
       case 'Calendar':
         return <div className="widgetContent"><BasicCalendar/></div>;
       case 'Weather':
