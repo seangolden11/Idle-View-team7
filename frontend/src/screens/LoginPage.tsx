@@ -2,7 +2,7 @@ import Login from '../components/Login'
 
 type Props = {}
 
-const LoginPage = (props: Props) => {
+const LoginPage = (_props: Props) => {
   return (
     <Login/>
   )

@@ -5,7 +5,7 @@ import axios from 'axios';
 import MoonSvg  from '../../assets/svgs/moon.svg';
 import CloudSvg  from '../../assets/svgs/cloud.svg';
 import SunSvg  from '../../assets/svgs/sun.svg';
-import RainSvg  from '../../assets/svgs/rainy.svg';
+//import RainSvg  from '../../assets/svgs/rainy.svg';
 
 interface WeatherData {
   main: {
@@ -72,11 +72,7 @@ const WeatherWidget: React.FC = () => {
   useEffect(() => {
     if (location) {
       axios
-<<<<<<< HEAD
-        .get(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=&units=metric`)
-=======
         .get(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid={API_KEY}&units=metric`)
->>>>>>> login
         .then((response) => {
           setWeatherData(response.data);
         })
