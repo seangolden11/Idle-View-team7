@@ -1,0 +1,9 @@
+[
+    {
+        "id": "com.example.myservice",        
+        "version": "1.0.0",                   
+        "description": "Sample JS service",   
+        "type": "js",                         
+        "entry": "MediaService.js"                   
+    }
+]
