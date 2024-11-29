@@ -26,7 +26,7 @@ function CalendarWidget() {
     <div className='noglobal'>
       <Calendar 
       onChange={onChange} value={value} tileClassName={tileClassName}
-      formatDay={(locale, date) => moment(date).format("DD")}
+      formatDay={(_, date) => moment(date).format("DD")}
       showNeighboringMonth={false}
        />
     </div>

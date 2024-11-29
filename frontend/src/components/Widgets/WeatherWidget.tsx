@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
-import "./WeatherWidget.css";
-import MoonSvg from "../../assets/svgs/moon.svg";
-import CloudSvg from "../../assets/svgs/cloud.svg";
-import SunSvg from "../../assets/svgs/sun.svg";
-import { fetchWeatherData } from "../../../JsServices/service";
+import React, { useEffect, useState } from 'react';
+import './WeatherWidget.css';
+import axios from 'axios';
+
+import MoonSvg  from '../../assets/svgs/moon.svg';
+import CloudSvg  from '../../assets/svgs/cloud.svg';
+import SunSvg  from '../../assets/svgs/sun.svg';
+import RainSvg  from '../../assets/svgs/rainy.svg';
 
 interface WeatherData {
   main: {
@@ -30,9 +32,18 @@ const WeatherWidget: React.FC = () => {
 
   useEffect(() => {
     if (location) {
-      fetchWeatherData(location)
-        .then((data) => setWeatherData(data))
-        .catch((error) => console.error("Error fetching weather data:", error));
+      axios
+<<<<<<< HEAD
+        .get(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=&units=metric`)
+=======
+        .get(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid={API_KEY}&units=metric`)
+>>>>>>> login
+        .then((response) => {
+          setWeatherData(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching weather data:", error);
+        });
     }
   }, [location]);
 
