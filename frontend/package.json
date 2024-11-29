@@ -18,14 +18,9 @@
     "react-calendar": "^5.1.0",
     "react-datepicker": "^7.5.0",
     "react-dom": "^18.3.1",
-<<<<<<< HEAD
     "react-draggable": "^4.4.6",
     "react-modal": "^3.16.1",
-=======
-    "react-modal": "^3.16.1",
-    "react-draggable": "^4.4.6",
     "react-player": "^2.16.0",
->>>>>>> 17441d6d2b4a01a5773a6890cee0d3c21f0b5e8c
     "react-router-dom": "^6.27.0",
     "vite-plugin-svgr": "^4.3.0"
   },
