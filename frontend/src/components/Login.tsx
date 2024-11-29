@@ -11,14 +11,12 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/login', {
+      const response = await axios.post('http://192.168.0.105:3000/login', {
         username,
         password,
       });
       const token = response.data.token;
 
-
-      
       // Store token in localStorage
       localStorage.setItem('token', token);
 

@@ -14,11 +14,12 @@ type Props = {
 };
 
 const WidgetsContainer: React.FC<Props> = ({ widgets }) => {
+  const nodeRef = React.useRef(null);
   return (
     <div className='noglobal'>
       {widgets.map((widget) => (
-        <Draggable key={widget.id} defaultPosition={{ x: widget.x, y: widget.y }}>
-          <div className='noglobal'>
+        <Draggable nodeRef={nodeRef} key={widget.id} defaultPosition={{ x: widget.x, y: widget.y }}>
+          <div ref={nodeRef} className='noglobal'>
             {widget.type === 'Time' && <Clock />} {/* Clock 컴포넌트 */}
             {widget.type === 'Media' && <MediaPlayer/>}
             {widget.type === 'Calendar' && <BasicCalendar />}
