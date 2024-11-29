@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node server.ts"
+    "dev": "ts-node server.ts",
+    "build": "tsc",
+    "start:dev": "ts-node src/index.ts",
+    "start":"npm run build && node ./dist/index.js"
   },
   "keywords": [],
   "author": "",
