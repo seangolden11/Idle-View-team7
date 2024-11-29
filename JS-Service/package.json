@@ -1,5 +1,5 @@
 {
-  "name": "media-service",
+  "name": "com.example.idleview.service",
   "version": "1.0.0",
   "description": "media-play-service",
   "main": "MediaService.js",

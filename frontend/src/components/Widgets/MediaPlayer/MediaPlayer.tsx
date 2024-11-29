@@ -50,7 +50,7 @@ export default MediaPlayer;
 import React, { useState } from "react";
 import { startPlayback, stopPlayback, getStatus } from "./MediaService";
 
-const VideoController: React.FC = () => {
+const MediaPlayer: React.FC = () => {
     const [isPlaying, setIsPlaying] = useState<boolean | null>(null);
     const [error, setError] = useState<string | null>(null);
 
@@ -167,6 +167,6 @@ const VideoController: React.FC = () => {
     );
 };
 
-export default VideoController;
+export default MediaPlayer;
 
 

@@ -11,7 +11,7 @@ export const startPlayback = (videoUrl: string): Promise<string> => {
           }
       };
 
-      bridge.call("luna://com.idle_view_app.media.service/startPlayback", JSON.stringify({
+      bridge.call("luna://com.example.idleview.service/startPlayback", JSON.stringify({
           videoUrl
       }));
   });
@@ -30,7 +30,7 @@ export const stopPlayback = (): Promise<string> => {
           }
       };
 
-      bridge.call("luna://com.idle_view_app.media.service/stopPlayback", "{}");
+      bridge.call("luna://com.example.idleview.service/stopPlayback", "{}");
   });
 };
 
@@ -47,6 +47,6 @@ export const getStatus = (): Promise<boolean> => {
           }
       };
 
-      bridge.call("luna://com.idle_view_app.media.service/status", "{}");
+      bridge.call("luna://com.example.idleview.service/status", "{}");
   });
 };

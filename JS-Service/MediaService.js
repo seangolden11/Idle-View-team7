@@ -2,7 +2,7 @@ const spawn = require('child_process').spawn;
 const Service = require('webos-service');
 
 // 서비스 등록
-const service = new Service("com.idle_view_app.media.service");
+const service = new Service("com.example.idleview.service");
 
 let currentPlayer = null;
 
