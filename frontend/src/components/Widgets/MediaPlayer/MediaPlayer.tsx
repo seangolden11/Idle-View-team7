@@ -1,39 +1,20 @@
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
+import { getVideoURL } from "../../../../JsServices/service";
 
 function MediaPlayer() {
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchVideoPath = () => {
-        //@ts-ignore
-        if (typeof window.webOS === "undefined") {
-            console.warn("webOS is not defined. Using sample video URL for local testing.");
-            setVideoUrl("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
-
-            return;
+    const fetchVideoPath = async () => {
+        try {
+            const url = await getVideoURL(); // 비동기 함수 호출
+            setVideoUrl(url);
+        } catch (err) {
+            setError("Failed to load video URL.");
         }
-        //@ts-ignore
-        webOS.service.request("luna://com.webos.service.file/", {
-            method: "listDir",
-            parameters: {
-                path: "/media/internal/videos/" // 동영상 경로
-            },
-            onSuccess: (response: any) => {
-                if (response.files && response.files.length > 0) {
-                    const videoFile = response.files[0].name; // 첫 번째 파일 사용
-                    const videoPath = `/media/internal/videos/${videoFile}`;
-                    setVideoUrl(videoPath);
-                } else {
-                    setError("No video files found in the directory."); // 파일 없음 처리
-                }
-            },
-            onFailure: (error: any) => {
-                setError("Failed to fetch video files."); // API 실패 처리
-                console.error("Error fetching files:", error);
-            }
-        });
     };
+       
 
     useEffect(() => {
         fetchVideoPath(); // 컴포넌트 마운트 시 파일 경로 가져오기
@@ -48,7 +29,7 @@ function MediaPlayer() {
                     <ReactPlayer
                         url={videoUrl}
                         playing
-                        loop
+                        loop={false}
                         muted
                         className="react-player"
                         controls
@@ -59,6 +40,7 @@ function MediaPlayer() {
                             aspectRatio: "16 / 9", // 16:9 비율 유지
                             margin: "auto", // 중앙 정렬
                         }}
+                        onEnded={fetchVideoPath}
                     />
                 ) : (
                     <p>Loading video...</p> // 로딩 중 메시지

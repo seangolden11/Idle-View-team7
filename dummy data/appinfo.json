@@ -1,0 +1,12 @@
+{
+  "id": "com.domain.app",
+  "version": "1.0.0",
+  "title": "Idle View",
+  "appDescription": "A custom idle screen app for webOS.",
+  "vendor": "Your Company",
+  "type": "web",
+  "main": "index.html",
+  "icon": "icon.png",
+  "background": "true"
+  
+}
