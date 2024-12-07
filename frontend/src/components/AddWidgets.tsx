@@ -67,12 +67,7 @@ const AddWidgets: React.FC<Props> = ({ onAddWidget }) => {
         >
           Time
         </button>
-        <button
-          onClick={() => handleWidgetSelection('More')}
-          className={`button ${activeWidget === 'More' ? 'buttonActive' : ''}`}
-        >
-          More
-        </button>
+        
       </div>
       <div className="container">
         <div className="contentArea" onClick={() => onAddWidget(activeWidget)} >

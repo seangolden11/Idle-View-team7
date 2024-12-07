@@ -24,7 +24,6 @@ const WidgetsContainer: React.FC<Props> = ({ widgets }) => {
             {widget.type === 'Media' && <MediaPlayer/>}
             {widget.type === 'Calendar' && <BasicCalendar />}
             {widget.type === 'Weather' && <WeatherWidget />} {/* Weather Widget */}
-            {widget.type === 'More' && <div>More Widget</div>}
           </div>
         </Draggable>
       ))}

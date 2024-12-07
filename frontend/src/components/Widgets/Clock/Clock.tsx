@@ -1,4 +1,3 @@
-// Clock.tsx
 import React from "react";
 import { useLiveUpdate } from "../../../hooks/useLiveDate";
 import styles from "./ClockWidget.module.css";
@@ -10,8 +9,11 @@ export const Clock: React.FC = () => {
     const ampm = now.getHours() < 12 ? "AM" : "PM";
 
     return (
-        <div className={styles.Clock}> {/* 스타일 적용 */}
-            {hour}:{minute} {ampm}
+        <div className={styles.Clock}>
+            <div className={styles.time}>
+                {hour}:{minute}
+            </div>
+            <div className={styles.ampm}>{ampm}</div>
         </div>
     );
 };
