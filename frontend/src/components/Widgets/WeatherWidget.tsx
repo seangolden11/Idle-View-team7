@@ -45,31 +45,25 @@ const WeatherWidget: React.FC = () => {
     const containerStyle: React.CSSProperties = {
     position: "absolute",
     display: "flex",
-    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: "250px",
+    width: "38vw",
     borderRadius: "35px",
-    padding: "20px",
+    padding: "5px",
     background: "linear-gradient(to bottom, #0e1c26, #2a454b, #294861)",
     color: "white",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
-    margin: "10px",
     transition: "box-shadow 0.2s",
   };
 
   return (
     <div style={containerStyle}>
+      <div className="weather-left">
       {isDayTime ? <img src={SunSvg} className="sun" /> : <img src={MoonSvg} className="moon" />}
       <div className="cloud-container">
         <img src={CloudSvg} className="cloud" />
       </div>
       <div className="temperature">{Math.round(weatherData.main.temp)}°</div>
-      <div className="weather">{weatherData.weather[0].main}</div>
-      <div className="low-high">
-        {Math.round(weatherData.main.temp_min)}° / {Math.round(weatherData.main.temp_max)}°
-      </div>
-      <div className="feels-like">Feels like: {Math.round(weatherData.main.feels_like)}°</div>
       <form onSubmit={handleFormSubmit}>
         <input
           className="location"
@@ -78,8 +72,17 @@ const WeatherWidget: React.FC = () => {
           onChange={(e) => setInputValue(e.target.value)}
           onMouseDown={(e) => e.stopPropagation()} // Prevent drag on input interaction
         />
-      </form>
+      </form> 
+      </div>
+      <div className="weather-right">
+      <div className="weather">{weatherData.weather[0].main}</div>
+      <div className="low-high">
+        {Math.round(weatherData.main.temp_min)}° / {Math.round(weatherData.main.temp_max)}°
+      </div>
+      <div className="feels-like">Feels like: {Math.round(weatherData.main.feels_like)}°</div>
+      
       <div className="humidity">Humidity: {weatherData.main.humidity}%</div>
+      </div>
     </div>
   );
 };

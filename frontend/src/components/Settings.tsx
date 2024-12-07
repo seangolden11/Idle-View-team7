@@ -28,7 +28,7 @@ const Settings: React.FC<Props> = ({onBackgroundChange,onNavbarColorChange,onBri
     { name: 'Light Blue', rgba: 'rgba(173, 216, 230, 0.5)' }
   ];
   const backgrounds = [
-    { name: 'Heritage Red', image: background1 },
+    { name: 'Herit Red', image: background1 },
     { name: 'Active Red', image: background2 },
     { name: 'Active Pink', image: background3 },
     { name: 'Light Pink', image: background4 }
@@ -105,9 +105,9 @@ const Settings: React.FC<Props> = ({onBackgroundChange,onNavbarColorChange,onBri
                       backgroundImage: `url(${avatar.image})`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
-                      width: '150px',
-                      height: '150px',
-                      border: '2px solid #000',
+                      width: '15vw',
+                      height: '15vh',
+                      border: 'none',
                       cursor: 'pointer',
                       margin: '10px'
                     }}
@@ -143,19 +143,13 @@ const Settings: React.FC<Props> = ({onBackgroundChange,onNavbarColorChange,onBri
             onClick={() => handleWidgetSelection('BackgroundChange')}
             className={`button ${activeWidget === 'BackgroundChange' ? 'buttonActive' : ''}`}
           >
-            Background Change
+            BackGrnd Change
           </button>
           <button
             onClick={() => handleWidgetSelection('UserProfile')}
             className={`button ${activeWidget === 'UserProfile' ? 'buttonActive' : ''}`}
           >
             User Profile
-          </button>
-          <button
-            onClick={() => handleWidgetSelection('Reset')}
-            className={`button ${activeWidget === 'Reset' ? 'buttonActive' : ''}`}
-          >
-            Reset
           </button>
         </div>
 

@@ -1,7 +1,7 @@
 {
-  "name": "com.domain.app.service",
+  "name": "com.idle.view.app.service",
   "version": "1.0.0",
-  "description": "Helloworld service",
+  "description": "Idle View App Service",
   "main": "service.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
