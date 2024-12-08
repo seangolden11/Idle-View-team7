@@ -141,80 +141,41 @@ app.delete('/widget/remove', authenticateToken, async (req: Request, res: Respon
   }
 });
 
-let serverlatitude: number | null = 37.5665;
-let serverlongitude: number | null = 126.9780;
-
-app.post('/location', (req: Request, res: Response) => {
-  const { latitude, longitude } = req.body;
-
-  if (typeof latitude !== 'number' || typeof longitude !== 'number') {
-      res.status(400).json({ message: '위도와 경도를 숫자로 제공해야 합니다.' });
-      
-      return;
-  }
-
-  serverlatitude = latitude;
-  serverlongitude = longitude;
-  console.log(`사용자의 위도: ${latitude}, 경도: ${longitude}`);
-  
-  // 필요한 로직 수행 후 응답
-  res.json({ message: '위치 데이터를 성공적으로 수신했습니다.', latitude, longitude });
-});
-
 app.get(
   "/widget/weather",
-  authenticateToken,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      console.log("[INFO] Weather widget API called");
+    authenticateToken,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { location } = req.query;
 
-      // 사용자의 위치 정보 가져오기
-      //const { latitude, longitude } = await getUserLocation();
+            // Use location if provided
+            if (location) {
+                const apiKey = process.env.WEATHER_API_KEY || "your_api_key_here";
+                const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather`;
 
-      if (!serverlatitude || !serverlongitude) {
-        console.error("[ERROR] Location data missing: serverlatitude or serverlongitude is undefined");
-        return res.status(500).json({ error: "Failed to retrieve location" });
-      }
+                if (!location) {
+                  return res
+                    .status(400)
+                    .json({ error: "Location parameter is required." });
+                }
 
-      console.log(`[DEBUG] Location data retrieved: latitude=${serverlatitude}, longitude=${serverlongitude}`);
+                const response = await axios.get(weatherApiUrl, {
+                    params: {
+                        q: location,
+                        appid: apiKey,
+                        units: "metric",
+                    },
+                });
 
-      // 위경도를 격자 좌표(nx, ny)로 변환
-      const { x: nx, y: ny } = dfs_xy_conv("toXY", serverlatitude, serverlongitude);
-      console.log(`[DEBUG] Converted grid coordinates: nx=${nx}, ny=${ny}`);
-
-      const apiKey = process.env.WEATHER_API_KEY || "your_api_key_here";
-      if (apiKey === "your_api_key_here") {
-        console.warn("[WARN] Using default API key, ensure to set WEATHER_API_KEY in the environment variables");
-      }
-
-      const baseUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtFcst";
-
-      // 현재 시간 기준으로 baseTime 계산
-      const { baseDate, baseTime } = calculateBaseTime(new Date());
-      console.log(`[DEBUG] Calculated base time: baseDate=${baseDate}, baseTime=${baseTime}`);
-
-      console.log("[INFO] Sending request to weather API");
-      const response = await axios.get(baseUrl, {
-        params: {
-          serviceKey: apiKey,
-          numOfRows: 10,
-          pageNo: 1,
-          dataType: "JSON",
-          base_date: baseDate,
-          base_time: baseTime,
-          nx,
-          ny,
-        },
-      });
-
-      console.log("[INFO] Weather API response received");
-      res.json(response.data);
-    } catch (error) {
-      console.error("[ERROR] An error occurred while processing the weather widget API request", error);
-      next(error);
+                return res.json(response.data);
+            }
+          } catch (error) {
+            console.error("Weather API error:", error);
+            next(error);
+        }
     }
-  }
-);
+  );
+
 
 
 // // API: 일정 관리 (Mock 데이터 예시)

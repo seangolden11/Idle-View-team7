@@ -125,7 +125,7 @@ const service = new Service(pkgInfo.name);
   * Exposed as a callable service method.
   */
  service.register("fetchWeatherData", async (message) => {
-  const { location, token } = message.payload;
+  const { location } = message.payload;
 
   if (!location) {
     message.respond({
@@ -139,8 +139,7 @@ const service = new Service(pkgInfo.name);
 
     return;
   }
-  //location = JSON.parse(location);
-  //token = JSON.parse(token);
+  
 
   console.log("token:", token);
   console.log("location:", location);
