@@ -1,5 +1,5 @@
 {
-  "id": "com.domain.app",
+  "id": "com.idleview.app",
   "version": "1.0.0",
   "title": "Idle View",
   "appDescription": "A custom idle screen app for webOS.",
@@ -7,6 +7,12 @@
   "type": "web",
   "main": "index.html",
   "icon": "icon.png",
-  "background": "true"
+  "background": "true",
+  "services": [
+    {
+      "name": "com.idleview.app.service",
+      "description": "HelloWorld Service"
+    }
+  ]
   
 }

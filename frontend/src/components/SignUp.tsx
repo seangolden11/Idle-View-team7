@@ -17,7 +17,7 @@ const SignUp: React.FC = () => {
     }
   
     try {
-      await axios.post('http://192.168.0.105.1:3000/register', {
+      await axios.post('http://14.46.254.67:3000/register', {
         username,
         password,
       });

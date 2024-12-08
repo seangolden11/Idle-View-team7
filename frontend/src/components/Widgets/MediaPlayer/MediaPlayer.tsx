@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import { getVideoURL } from "../../../../JsServices/service";
+import { fetchVideoUrl }  from "../../ServiceFunction/ServiceToTypeScript";
 
 function MediaPlayer() {
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
-
+    
     const fetchVideoPath = async () => {
         try {
-            const url = await getVideoURL(); // 비동기 함수 호출
+            const url = await fetchVideoUrl(); // 비동기 함수 호출
             setVideoUrl(url);
         } catch (err) {
             setError("Failed to load video URL.");

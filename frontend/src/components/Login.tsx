@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import lgLogo from '../assets/lg_logo.png';
 import './Login-SignUp.css';
+import { settoken } from './ServiceFunction/ServiceToTypeScript';
+import {getUserLocation} from './Widgets/Location';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -11,14 +13,18 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://192.168.0.105:3000/login', {
+      const response = await axios.post('http://14.46.254.67:3000/login', {
         username,
         password,
       });
       const token = response.data.token;
-
+      console.log("store token",token);
+      
+      console.log("store by webos token",settoken(token));
       // Store token in localStorage
-      localStorage.setItem('token', token);
+      //localStorage.setItem('token', token);
+      console.log("set location");
+      //getUserLocation();
 
       // Redirect to home page on successful login
       navigate('/home');
