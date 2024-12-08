@@ -7,14 +7,14 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import axios from 'axios';
+import geoip from 'geoip-lite';
 
 const app = express();
 // 기존 CORS 설정을 아래와 같이 변경
 const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-    const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173',
-      'http://192.168.0.105:5173'];
-          if (!origin || allowedOrigins.includes(origin)) {
+    const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173','http://14.46.254.67:3000'];
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -142,7 +142,7 @@ app.delete('/widget/remove', authenticateToken, async (req: Request, res: Respon
 });
 
 app.get(
-    "/widget/weather",
+  "/widget/weather",
     authenticateToken,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -169,41 +169,13 @@ app.get(
 
                 return res.json(response.data);
             }
-
-            // // Otherwise, use latitude and longitude logic
-            // const { latitude, longitude } = await getUserLocation();
-
-            // if (!latitude || !longitude) {
-            //     return res.status(500).json({ error: "Failed to retrieve location" });
-            // }
-
-            // const { x: nx, y: ny } = dfs_xy_conv("toXY", latitude, longitude);
-
-            // const baseUrl =
-            //     "http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtFcst";
-
-            // const { baseDate, baseTime } = calculateBaseTime(new Date());
-
-            // const response = await axios.get(baseUrl, {
-            //     params: {
-            //         // serviceKey: apiKey,
-            //         numOfRows: 10,
-            //         pageNo: 1,
-            //         dataType: "JSON",
-            //         base_date: baseDate,
-            //         base_time: baseTime,
-            //         nx,
-            //         ny,
-            //     },
-            // });
-
-            // res.json(response.data);
-        } catch (error) {
+          } catch (error) {
             console.error("Weather API error:", error);
             next(error);
         }
     }
-);
+  );
+
 
 
 // // API: 일정 관리 (Mock 데이터 예시)

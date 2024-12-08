@@ -3,7 +3,7 @@ import "./WeatherWidget.css";
 import MoonSvg from "../../assets/svgs/moon.svg";
 import CloudSvg from "../../assets/svgs/cloud.svg";
 import SunSvg from "../../assets/svgs/sun.svg";
-import { fetchWeatherData } from "../../../JsServices/service";
+import{ getWeatherData }from "../ServiceFunction/ServiceToTypeScript"
 
 interface WeatherData {
   main: {
@@ -28,13 +28,15 @@ const WeatherWidget: React.FC = () => {
     setLocation(inputValue);
   };
 
+  const token = localStorage.getItem('token');
+
   useEffect(() => {
-    if (location) {
-      fetchWeatherData(location)
+    if (location && token) {
+      getWeatherData(location,token)
         .then((data) => setWeatherData(data))
         .catch((error) => console.error("Error fetching weather data:", error));
     }
-  }, [location]);
+  }, [location, token]);
 
   if (!weatherData) return <div>Loading...</div>;
 

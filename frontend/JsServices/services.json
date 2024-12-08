@@ -1,9 +1,9 @@
 {
-  "id": "com.idle.view.app.service",
+  "id": "com.idleview.app.service",
   "description": "HelloWorld Service",
   "services": [
     {
-      "name": "com.idle.view.app.service"
+      "name": "com.idleview.app.service"
     }
   ]
 }

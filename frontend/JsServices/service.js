@@ -1,12 +1,17 @@
-import axios from 'axios';
+/*import axios from 'axios';
+
+const pkgInfo = require("./package.json");
+const Service = require("webos-service");
 
 const BASE_URL = 'http://192.168.0.105:3000';
+
+const service = new Service(pkgInfo.name);
 
 /**
  * Fetch weather data for a specific location.
  * @param {string} location - The location for which to fetch weather data.
  * @returns {Promise<WeatherData>} - A promise that resolves to the weather data.
- */
+ 
 export const fetchWeatherData = async (location) => {
   try {
     const token = localStorage.getItem('token');
@@ -32,7 +37,7 @@ export const fetchWeatherData = async (location) => {
  * Save a weather widget configuration.
  * @param {Object} config - The widget configuration to save.
  * @returns {Promise<WeatherData>} - A promise that resolves to the API response.
- */
+ 
 export const saveWeatherWidget = async (config) => {
   try {
     const token = localStorage.getItem('token');
@@ -64,7 +69,7 @@ export const saveWeatherWidget = async (config) => {
  * Remove a weather widget.
  * @param {number} widgetId - The ID of the widget to remove.
  * @returns {Promise<WeatherData>} - A promise that resolves to the API response.
- */
+ 
 export const removeWeatherWidget = async (widgetId) => {
   try {
     const token = localStorage.getItem('token');
@@ -86,134 +91,167 @@ export const removeWeatherWidget = async (widgetId) => {
   }
 };
 
+let currentIndex = 0;
 
-// const pkgInfo = require("./package.json");
-// const Service = require("webos-service");
-// const axios = require("axios");
+export const getVideoURL = async () => {
+  const videoUrls = [
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+  ];
 
-// const BASE_URL = "http://192.168.0.105:3000";
+  const videoUrl = videoUrls[currentIndex];
+  currentIndex = (currentIndex + 1) % videoUrls.length;
+  return videoUrl;
+};*/
 
-// // Initialize the service
-// const service = new Service(pkgInfo.name);
 
-// // Token variable to store the authentication token
-// let token = "";
+ //import { name } from "./package.json";
+ const Service = require("webos-service");
+const { get, post } = require("axios");
+const pkgInfo = require("./package.json");
+ 
 
-// /**
-//  * Fetch weather data for a specific location.
-//  * Exposed as a callable service method.
-//  */
-// service.register("fetchWeather", async (message) => {
-//   console.log("Fetching weather data...");
-//   const location = message.payload.location;
+ const BASE_URL = "http://14.46.254.67:3000";
 
-//   if (!location) {
-//     message.respond({
-//       returnValue: false,
-//       errorText: "Location parameter is missing.",
-//     });
-//     return;
-//   }
+ // Initialize the service
+const service = new Service(pkgInfo.name);
 
-//   try {
-//     const response = await axios.get(`${BASE_URL}/widget/weather`, {
-//       params: { location },
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
+// Token variable to store the authentication token
+ let token = "";
 
-//     message.respond({
-//       returnValue: true,
-//       data: response.data,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching weather data:", error.message);
-//     message.respond({
-//       returnValue: false,
-//       errorText: error.message,
-//     });
-//   }
-// });
+ /**
+  * Fetch weather data for a specific location.
+  * Exposed as a callable service method.
+  */
+ service.register("fetchWeatherData", async (message) => {
+  const { location } = message.payload;
 
-// /**
-//  * Save a weather widget configuration.
-//  * Exposed as a callable service method.
-//  */
-// service.register("saveWeatherWidget", async (message) => {
-//   console.log("Saving weather widget configuration...");
-//   const config = message.payload.config;
+  if (!location) {
+    message.respond({
+      returnValue: false,
+      errorText: "Location parameter is required.",
+    });
 
-//   if (!config) {
-//     message.respond({
-//       returnValue: false,
-//       errorText: "Config parameter is missing.",
-//     });
-//     return;
-//   }
+    if (!token) {
+      throw new Error("User not authenticated. Token missing.");
+    }
 
-//   try {
-//     const response = await axios.post(
-//       `${BASE_URL}/widget/add`,
-//       {
-//         widget_type: "weather",
-//         config,
-//       },
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
-
-//     message.respond({
-//       returnValue: true,
-//       data: response.data,
-//     });
-//   } catch (error) {
-//     console.error("Error saving widget:", error.message);
-//     message.respond({
-//       returnValue: false,
-//       errorText: error.message,
-//     });
-//   }
-// });
-
-// /**
-//  * Set the authentication token.
-//  */
-// service.register("setToken", (message) => {
-//   console.log("Setting authentication token...");
-//   token = message.payload.token || "";
-
-//   if (!token) {
-//     message.respond({
-//       returnValue: false,
-//       errorText: "Token is missing.",
-//     });
-//     return;
-//   }
-
-//   message.respond({
-//     returnValue: true,
-//     token,
-//   });
-// });
-// async function fetchWeatherData(location, authToken) {
-//     if (!location) {
-//       throw new Error("Location is required");
-//     }
+    return;
+  }
   
-//     const response = await axios.get(`${BASE_URL}/widget/weather`, {
-//       params: { location },
-//       headers: {
-//         Authorization: `Bearer ${authToken}`,
-//       },
-//     });
+
+  console.log("token:", token);
+  console.log("location:", location);
+
+  try {
+    
+    const response = await get(`${BASE_URL}/widget/weather`, {
+      params: { location },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    message.respond({
+      returnValue: true,
+      data: response.data,
+    });
+  } catch (error) {
+    console.error("Error fetching weather data:", error.message,"token",token,"location",location);
+
+    message.respond({
+      returnValue: false,
+      errorText: error.message,
+    });
+  }
+});
+
+ /**
+  * Save a weather widget configuration.
+  * Exposed as a callable service method.
+  */
+ service.register("saveWeatherWidget", async (message) => {
+   console.log("Saving weather widget configuration...");
+   const config = message.payload.config;
+
+   if (!config) {
+     message.respond({
+       returnValue: false,
+       errorText: "Config parameter is missing.",
+     });
+     return;
+   }
+
+   try {
+     const response = await post(
+       `${BASE_URL}/widget/add`,
+       {
+         widget_type: "weather",
+         config,
+       },
+       {
+         headers: {
+           Authorization: `Bearer ${token}`,
+         },
+       }
+     );
+
+     message.respond({
+       returnValue: true,
+       data: response.data,
+     });
+   } catch (error) {
+     console.error("Error saving widget:", error.message);
+     message.respond({
+       returnValue: false,
+      errorText: error.message,
+     });
+   }
+ });
+
+ /**
+  * Set the authentication token.
+  */
+ service.register("setToken", (message) => {
+   console.log("Setting authentication token...");
+   token = message.payload.token || "";
+
+   if (!token) {
+     message.respond({
+       returnValue: false,
+       errorText: "Token is missing.",
+     });
+     return;
+   }
+
+   message.respond({
+     returnValue: true,
+     token,
+   });
+ });
+ 
+
+   let currentIndex = 0;
+
+  const videoUrls = [
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+  ];
+
+// 비디오 URL을 반환하는 서비스 메서드
+  service.register("getVideoURL", (message) => {
+    const videoUrl = videoUrls[currentIndex];
+    currentIndex = (currentIndex + 1) % videoUrls.length;
+
+    message.respond({
+      returnValue: true,
+      videoUrl,
+  });
+});
   
-//     return response.data;
-//   }
-  
-//   // Exporting service and helper functions for compatibility
-//   module.exports = { service, fetchWeatherData };
+module.exports = {
+  service
+};
   
