@@ -1,16 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { dfs_xy_conv } from './utils/dfs_xy_conv';
-import { getUserLocation } from './utils/location';
-import { calculateBaseTime } from "./utils/time"; // 기준 시간 유틸리티
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import axios from 'axios';
-import geoip from 'geoip-lite';
 
 const app = express();
-// 기존 CORS 설정을 아래와 같이 변경
 const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173','http://14.46.254.67:3000'];
@@ -23,7 +18,7 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(cors(corsOptions)); // CORS 미들웨어 적용
+app.use(cors(corsOptions));
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 
@@ -48,7 +43,7 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-// API: 회원가입
+// API: register
 app.post('/register', async (req: Request, res: Response, next: NextFunction) => {
   const { username, password } = req.body;
 
@@ -78,7 +73,7 @@ app.post('/register', async (req: Request, res: Response, next: NextFunction) =>
   }
 });
 
-// API: 로그인
+// API: login
 app.post('/login', async (req: Request, res: Response, next: NextFunction) => {
   const { username, password } = req.body;
   if (!username || !password) {
@@ -99,7 +94,7 @@ app.post('/login', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-// API: 대시보드 설정 불러오기
+// API: dashboard settings
 app.get('/dashboard/settings', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const settings = await prisma.dashboardSetting.findFirst({
@@ -111,7 +106,7 @@ app.get('/dashboard/settings', authenticateToken, async (req: Request, res: Resp
   }
 });
 
-// API: 위젯 추가하기
+// API: add widget
 app.post('/widget/add', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
   const { widget_type, config } = req.body;
   try {
@@ -128,7 +123,7 @@ app.post('/widget/add', authenticateToken, async (req: Request, res: Response, n
   }
 });
 
-// API: 위젯 삭제하기
+// API: remove widget
 app.delete('/widget/remove', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
   const { widget_id } = req.body;
   try {
@@ -175,18 +170,6 @@ app.get(
         }
     }
   );
-
-
-
-// // API: 일정 관리 (Mock 데이터 예시)
-// app.get('/widget/schedule', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
-//   res.json({ events: [{ title: 'Meeting', date: '2024-11-15', time: '10:00' }] });
-// });
-
-// // API: IdleView 화면 활성화
-// app.post('/idleview/activate', authenticateToken, (req: Request, res: Response) => {
-//   res.json({ success: true });
-// });
 
 // Global error handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

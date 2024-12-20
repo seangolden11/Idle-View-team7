@@ -1,11 +1,10 @@
 /* Overlay.module.css */
 .overlay {
-    position: fixed;       /* 화면에 고정되도록 설정 */
-    top: 0;                /* 상단부터 시작 */
-    left: 0;               /* 왼쪽부터 시작 (필요에 따라 right로 조정 가능) */
-    width: 100vw;          /* 오버레이의 너비 (필요에 따라 조정) */
-    height: 100vh;         /* 화면 전체 높이 */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 그림자 효과로 시각적 구분 */
-    z-index: 1;         /* 배경 콘텐츠 위로 표시되도록 높은 z-index 값 */
-  }
-  
+  position: fixed;       /* Set to be fixed on the screen */
+  top: 0;                /* Start from the top */
+  left: 0;               /* Start from the left (adjust to `right` if needed) */
+  width: 100vw;          /* Overlay width (adjust if necessary) */
+  height: 100vh;         /* Full screen height */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Shadow effect for visual distinction */
+  z-index: 1;            /* Display above background content with a high z-index value */
+}

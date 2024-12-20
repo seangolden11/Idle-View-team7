@@ -12,7 +12,7 @@ function CalendarWidget() {
   const [value, onChange] = useState<Value>(new Date());
 
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
-    // view가 'month'일 때만 주말을 체크
+    // Check the weekend only when the view is 'month'
     if (view === 'month') {
       const day = date.getDay();
       if (day === 0 || day === 6) {

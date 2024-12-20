@@ -79,7 +79,7 @@ export function callWebOSService(serviceUrl, params = {}) {
       try {
         const parsedResponse = JSON.parse(response);
         if (parsedResponse.returnValue) {
-          resolve(parsedResponse); // 성공적으로 데이터를 반환
+          resolve(parsedResponse);
         } else {
           reject(
             new Error(
