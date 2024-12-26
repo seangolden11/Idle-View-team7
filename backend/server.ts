@@ -8,7 +8,7 @@ import axios from 'axios';
 const app = express();
 const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-    const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173','http://14.46.254.67:3000'];
+    const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173','http://192.168.45.165:3000'];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {

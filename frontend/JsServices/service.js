@@ -4,7 +4,7 @@ const { get, post } = require("axios");
 const pkgInfo = require("./package.json");
  
 
- const BASE_URL = "http://14.46.254.67:3000";
+ const BASE_URL = "http://192.168.45.165:3000";
 
  // Initialize the service
 const service = new Service(pkgInfo.name);

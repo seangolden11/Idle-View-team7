@@ -1,31 +1,7 @@
-/*export function fetchWeatherData(location) {
-  return new Promise((resolve, reject) => {
-    if (!location) {
-      reject("Location parameter is required.");
-      return;
-    }
-
-    const serviceURI = "luna://com.domain.app/fetchWeatherData";
-    const params = JSON.stringify({ location });
-
-    const bridge = new webOSServiceBridge();
-    bridge.onservicecallback = (response) => {
-      const parsedResponse = JSON.parse(response);
-
-      if (parsedResponse.returnValue) {
-        resolve(parsedResponse.data);
-      } else {
-        reject(parsedResponse.errorText || "Unknown error occurred.");
-      }
-    };
-
-    bridge.call(serviceURI, params);
-  });
-}*/
 
 const bridge = new WebOSServiceBridge();
 
-export function fetchWeatherData(location,token) {
+export function fetchWeatherData(location) {
   console.log("fetchdatacalled");
   return new Promise((resolve, reject) => {
     console.log("[fetchWeatherData] Called with location:", location);
@@ -43,7 +19,7 @@ export function fetchWeatherData(location,token) {
     }
 
     const serviceURI = "luna://com.idleview.app.service/fetchWeatherData";
-    const params = JSON.stringify({ location, token });
+    const params = JSON.stringify({ location});
 
     console.log("[fetchWeatherData] Preparing to call service:", serviceURI, "with params:", params);
 
@@ -72,14 +48,16 @@ export function fetchWeatherData(location,token) {
   });
 }
 
-export function callWebOSService(serviceUrl, params = {}) {
+export function callWebOSService( params = {}) {
   return new Promise((resolve, reject) => {
+
+    const serviceURI = "luna://com.idleview.app.service/getVideoURL";
 
     bridge.onservicecallback = (response) => {
       try {
         const parsedResponse = JSON.parse(response);
         if (parsedResponse.returnValue) {
-          resolve(parsedResponse);
+          resolve(parsedResponse); // 성공적으로 데이터를 반환
         } else {
           reject(
             new Error(
@@ -92,7 +70,7 @@ export function callWebOSService(serviceUrl, params = {}) {
       }
     };
 
-    bridge.call(serviceUrl, JSON.stringify(params));
+    bridge.call(serviceURI, JSON.stringify(params));
   });
 }
 
